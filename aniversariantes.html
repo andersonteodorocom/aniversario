@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aniversariantes do Mês</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Happy+Monkey&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Happy Monkey', cursive;
+            background: #e6e6fa;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .banner {
+            width: 100%;
+            display: block;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 3em;
+            color: #667eea;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .form-section {
+            margin-bottom: 30px;
+        }
+
+        .nome-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
+            align-items: center;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 15px 20px;
+            font-size: 1.2em;
+            border: 3px solid #667eea;
+            border-radius: 10px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #764ba2;
+            box-shadow: 0 0 15px rgba(102, 126, 234, 0.5);
+        }
+
+        button {
+            padding: 15px 30px;
+            font-size: 1.1em;
+            font-weight: bold;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-transform: uppercase;
+        }
+
+        .btn-adicionar {
+            background: #48bb78;
+            color: white;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        .btn-adicionar:hover {
+            background: #38a169;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(72, 187, 120, 0.4);
+        }
+
+        .btn-remover {
+            background: #f56565;
+            color: white;
+            padding: 10px 20px;
+        }
+
+        .btn-remover:hover {
+            background: #e53e3e;
+        }
+
+        .btn-imprimir {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            width: 100%;
+            font-size: 1.3em;
+            padding: 20px;
+        }
+
+        .btn-imprimir:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.5);
+        }
+
+        .lista-aniversariantes {
+            display: none;
+        }
+
+        .nome-aniversariante {
+            font-size: 2.5em;
+            font-weight: 900;
+            color: #2d3748;
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+            border-radius: 15px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            animation: slideIn 0.5s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* Estilos para impressão */
+        @media print {
+            @page {
+                margin: 0;
+            }
+
+            body {
+                background: white;
+                padding: 0;
+                margin: 0;
+                height: 100vh;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .container {
+                box-shadow: none;
+                border: 5px dashed #667eea;
+                border-radius: 20px;
+                margin: 20px;
+            }
+
+            .banner {
+                max-height: 550px;
+                object-fit: cover;
+            }
+
+            .form-section,
+            .btn-imprimir {
+                display: none !important;
+            }
+
+            .lista-aniversariantes {
+                display: block !important;
+            }
+
+            .content {
+                padding: 12px 20px;
+            }
+
+            h1 {
+                page-break-after: avoid;
+                border-bottom: 4px dashed #764ba2;
+                padding-bottom: 8px;
+                margin-bottom: 12px;
+                font-size: 2em;
+            }
+
+            .nome-aniversariante {
+                page-break-inside: avoid;
+                animation: none;
+                box-shadow: none;
+                border-radius: 0;
+                border-bottom: 3px dashed #ffd700;
+                padding: 10px 20px;
+                margin-bottom: 8px;
+                font-size: 1.7em;
+            }
+
+            .nome-aniversariante:last-child {
+                border-bottom: none;
+            }
+        }
+
+        @media screen and (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            .nome-aniversariante {
+                font-size: 1.8em;
+            }
+
+            input[type="text"] {
+                font-size: 1em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <img src="banner.jpg" alt="Banner Aniversariantes" class="banner" id="banner">
+        
+        <div class="content">
+            <h1>🎉 Aniversariantes do Mês 🎉</h1>
+            
+            <!-- Seção do Formulário -->
+            <div class="form-section">
+                <div id="nomes-container">
+                    <div class="nome-group">
+                        <input type="text" placeholder="Digite o nome do aniversariante" class="input-nome">
+                    </div>
+                </div>
+                
+                <button class="btn-adicionar" onclick="adicionarCampo()">
+                    ➕ Adicionar Mais um Nome
+                </button>
+                
+                <button class="btn-imprimir" onclick="imprimir()">
+                    🖨️ Imprimir
+                </button>
+            </div>
+
+            <!-- Lista para impressão (oculta na tela) -->
+            <div class="lista-aniversariantes" id="lista-impressao">
+                <!-- Os nomes serão inseridos aqui ao imprimir -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Lista de imagens de banner - adicione aqui os nomes dos seus arquivos
+        const banners = [
+            'banner.jpg',
+            'banner-a.jpg',
+            'banner-b.jpg',
+            'banner-c.jpg',
+            'banner-d.jpg',
+            'banner-e.jpg'
+        ];
+
+        // Escolhe um banner aleatório ao carregar a página
+        window.addEventListener('DOMContentLoaded', function() {
+            const bannerAleatorio = banners[Math.floor(Math.random() * banners.length)];
+            document.getElementById('banner').src = bannerAleatorio;
+        });
+
+        function adicionarCampo() {
+            const container = document.getElementById('nomes-container');
+            const novoGrupo = document.createElement('div');
+            novoGrupo.className = 'nome-group';
+            
+            novoGrupo.innerHTML = `
+                <input type="text" placeholder="Digite o nome do aniversariante" class="input-nome">
+                <button class="btn-remover" onclick="removerCampo(this)">❌</button>
+            `;
+            
+            container.appendChild(novoGrupo);
+            
+            // Foca no novo campo
+            novoGrupo.querySelector('input').focus();
+        }
+
+        function removerCampo(button) {
+            const grupoNome = button.parentElement;
+            grupoNome.remove();
+        }
+
+        function imprimir() {
+            // Pega todos os inputs com nomes
+            const inputs = document.querySelectorAll('.input-nome');
+            const listaImpressao = document.getElementById('lista-impressao');
+            
+            // Limpa a lista
+            listaImpressao.innerHTML = '';
+            
+            // Coleta os nomes preenchidos
+            const nomes = [];
+            inputs.forEach(input => {
+                const nome = input.value.trim();
+                if (nome) {
+                    nomes.push(nome);
+                }
+            });
+
+            // Verifica se há nomes
+            if (nomes.length === 0) {
+                alert('Por favor, adicione pelo menos um nome antes de imprimir!');
+                return;
+            }
+
+            // Adiciona os nomes na lista de impressão
+            nomes.forEach(nome => {
+                const div = document.createElement('div');
+                div.className = 'nome-aniversariante';
+                div.textContent = nome;
+                listaImpressao.appendChild(div);
+            });
+
+            // Aguarda um pouco para renderizar e então imprime
+            setTimeout(() => {
+                window.print();
+            }, 100);
+        }
+
+        // Permite pressionar Enter para adicionar novo campo
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && e.target.classList.contains('input-nome')) {
+                e.preventDefault();
+                adicionarCampo();
+            }
+        });
+    </script>
+</body>
+</html>
