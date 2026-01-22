@@ -12,5 +12,9 @@ COPY banner-e.jpg /usr/share/nginx/html/
 # Expõe a porta 80
 EXPOSE 80
 
-# O nginx já inicia automaticamente no container
+# Healthcheck para o Coolify
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD wget --quiet --tries=1 --spider http://localhost/ || exit 1
+
+# Inicia o nginx
 CMD ["nginx", "-g", "daemon off;"]
